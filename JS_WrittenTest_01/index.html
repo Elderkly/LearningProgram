@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {margin:0}
+    </style>
+</head>
+<body>
+    
+</body>
+</html>
+
+<script>
+    !function () {
+        const N = 3
+        const DomData = []
+        const getRandomNumber = () => {
+            const P = Math.random() * 300 * Math.random() + 30
+            return P
+        }
+
+        const body = document.body
+        for (let i = 0; i < N; i++) {
+            const dom = document.createElement('div');
+            const data = {
+                top: getRandomNumber(),
+                left: getRandomNumber(),
+                height: getRandomNumber(),
+                width: getRandomNumber(),
+            }
+            dom.style.cssText = `width: ${data.width}px;height: ${data.height}px;left:${data.left}px;top:${data.top}px;background-color: rgb(113, 217, 217);position:absolute;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;border:1px solid #999;box-sizing:border-box`
+            dom.textContent = i + 1
+            body.appendChild(dom);
+            DomData.push(data)
+        }
+
+        !function getBoxBorder() {
+            console.log(DomData)
+            let returnData = {top:Number.MAX_VALUE,left:Number.MAX_VALUE,height:0,width:0}
+            console.log(returnData)
+            let lastItem
+            DomData.map(e => {
+                if (!lastItem) {
+                    returnData = e
+                    lastItem = e
+                    return
+                }
+
+                if ((e.width >= returnData.width) && (returnData.left > e.left) && (e.width + e.left > returnData.width + returnData.left)) {
+                    console.log("B比A大",returnData,e)
+                    returnData.width = e.width
+                } else if ((returnData.width >= e.width) && (returnData.left < e.left) && (e.width + e.left < returnData.width + returnData.left)) {
+                    console.log("A比B大",returnData,e)
+                    returnData.width = returnData.width
+                } else if ((e.width + e.left < returnData.width + returnData.left) && (returnData.left < e.width + e.left)) {
+                    console.log("B左重叠",returnData.left,returnData.width,e.left)
+                    returnData.width = returnData.left + returnData.width - e.left
+                    console.log(returnData)
+                } else if ((e.width + e.left > returnData.width + returnData.left) && (e.left < returnData.width + returnData.left)) {
+                    console.log("B右重叠",returnData,e)
+                    returnData.width = e.left + e.width - returnData.left
+                } else if (e.width + e.left < returnData.width + returnData.left) {
+                    console.log("B在A左边",returnData,e)
+                    returnData.width = returnData.width + returnData.left - e.left
+                } else {
+                    console.log("B在A右边",returnData,e)
+                    returnData.width = e.width + e.left - returnData.left
+                }
+
+                if ((e.height >= returnData.height) && (returnData.top > e.top) && (e.height + e.top > returnData.height + returnData.top)) {
+                    console.log("B比A高")
+                    returnData.height = e.height
+                } else if ((returnData.height >= e.height) && (returnData.top < e.top) && (e.height + e.top < returnData.height + returnData.top)) {
+                    console.log("A比B高")
+                    returnData.height = returnData.height
+                } else if ((e.height + e.top < returnData.height + returnData.top) && (returnData.top < e.height + e.top)) {
+                    console.log("B上重叠")
+                    returnData.height = returnData.top + returnData.height - e.top
+                } else if ((e.height + e.top > returnData.height + returnData.top) && (e.top < returnData.height + returnData.top)) {
+                    console.log("B下重叠")
+                    returnData.height = e.top + e.height - returnData.top
+                } else if (e.height + e.top < returnData.height + returnData.top) {
+                    console.log("B在A上边")
+                    returnData.height = returnData.height + returnData.top - e.top
+                } else {
+                    console.log("B在A下边")
+                    returnData.height = e.height + e.top - returnData.top
+                }
+               
+                
+                returnData.left = e.left < returnData.left ? e.left : returnData.left
+                returnData.top = e.top < returnData.top ? e.top : returnData.top
+                lastItem = e
+            })
+            const dom = document.createElement('div');
+            dom.style.cssText = `width: ${returnData.width}px;height: ${returnData.height}px;left:${returnData.left}px;top:${returnData.top}px;position:absolute;border:2px solid #999;box-sizing:content-box`
+            body.appendChild(dom);
+        }()
+
+    }()
+
+</script>
