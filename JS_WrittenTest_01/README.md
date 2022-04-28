@@ -17,7 +17,7 @@
   * 新在旧左边
   * 新在旧右边 
 
-<img src="hhttps://github.com/Elderkly/ImgRepository/blob/master/LearningProgram/IMG_2167.jpg"  width="350">
+<img src="https://github.com/Elderkly/ImgRepository/blob/master/LearningProgram/IMG_2167.jpg"  width="350">
 
 ### 实际上重叠和为重叠返回的内容是一样的，所以6种情况可以缩减为4种情况进行处理。
 
